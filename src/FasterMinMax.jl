@@ -7,12 +7,17 @@ export unsafe_min, unsafe_max, unsafe_minmax, unsafe_maxmin,
 const FastFloat = Union{Float32, Float64}
 
 function unsafe_min(x::T, y::T) where {T<:FastFloat}
+    x_y = x - y
+    (signbit(x_y) || isnan(x)) ? x : y
 end
 
 function unsafe_max(x::T, y::T) where {T<:FastFloat}
+    y_x = y - x
+    (signbit(y_x) || isnan(x)) ? x : y
 end
 
-function unsafe_minmax(x::T, y::T) where {T<:FastFloat}
+function unsafe_minmax(x::T, y::T) where {T<:FastFloat} 
+    (unsafe_min(x,y), unsafe(max(x,y))
 end
 
 function unsafe_maxmin(x::T, y::T) where {T<:FastFloat}
