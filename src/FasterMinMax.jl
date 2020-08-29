@@ -17,10 +17,11 @@ function unsafe_max(x::T, y::T) where {T<:FastFloat}
 end
 
 function unsafe_minmax(x::T, y::T) where {T<:FastFloat} 
-    (unsafe_min(x,y), unsafe(max(x,y))
+    (unsafe_min(x,y), unsafe_max(x,y))
 end
 
 function unsafe_maxmin(x::T, y::T) where {T<:FastFloat}
+    (signbit(y-x) || isnan(x)) ? (x,y) : (y,x)
 end
 
 function minnum(x::T, y::T) where {T<:FastFloat}
